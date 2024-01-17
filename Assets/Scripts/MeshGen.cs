@@ -9,14 +9,10 @@ public class MeshGen : MonoBehaviour
     public List<Vector3> verts;
     public List<int> tris;
     public List<Vector2> uvs;
-    private void Start()
-    {
-        m_MeshFilter = GetComponent<MeshFilter>();
-        CreateMesh();
-    }
 
-    private void CreateMesh()
+    public void CreateMesh()
     {
+        if(!m_MeshFilter) m_MeshFilter = GetComponent<MeshFilter>();
         m_Mesh = new Mesh()
         {
             name = "Test Mesh"
@@ -47,8 +43,9 @@ public class MeshGen : MonoBehaviour
         m_Mesh.SetVertices(verts);
         m_Mesh.triangles = tris.ToArray();
         m_Mesh.uv = uvs.ToArray();
+
+        m_MeshFilter.mesh.Clear();
         m_MeshFilter.mesh = m_Mesh;
         m_Mesh.RecalculateNormals();
-        Destroy(this);
     }
 }
